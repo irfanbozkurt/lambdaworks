@@ -44,10 +44,9 @@ pub fn test_srs(n: usize) -> StructuredReferenceString<G1Point, G2Point> {
 
 /// Generates a domain to interpolate: 1, omega, omega², ..., omega^size
 pub fn generate_domain<F: IsField>(omega: &FieldElement<F>, size: usize) -> Vec<FieldElement<F>> {
-    (1..size).fold(vec![FieldElement::one()], |mut acc, _| {
-        acc.push(acc.last().unwrap() * omega);
-        acc
-    })
+    core::iter::successors(Some(FieldElement::one()), |prev| Some(prev * omega))
+        .take(size)
+        .collect()
 }
 
 /// Generates the permutation coefficients for the copy constraints.
