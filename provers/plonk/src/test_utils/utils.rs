@@ -52,32 +52,34 @@ pub fn generate_domain<F: IsField>(omega: &FieldElement<F>, size: usize) -> Vec<
 /// Generates the permutation coefficients for the copy constraints.
 /// polynomials S1, S2, S3.
 pub fn generate_permutation_coefficients<F: IsField>(
-    omega: &FieldElement<F>,
-    n: usize,
+    domain: &[FieldElement<F>],
     permutation: &[usize],
     order_r_minus_1_root_unity: &FieldElement<F>,
 ) -> Vec<FieldElement<F>> {
-    let identity = identity_permutation(omega, n, order_r_minus_1_root_unity);
-    let permuted: Vec<FieldElement<F>> = (0..n * 3)
-        .map(|i| identity[permutation[i]].clone())
-        .collect();
-    permuted
+    let identity = identity_permutation(domain, order_r_minus_1_root_unity);
+    permutation
+        .iter()
+        .map(|perm| identity[*perm].clone())
+        .collect()
 }
 
 /// The identity permutation, auxiliary function to generate the copy constraints.
 fn identity_permutation<F: IsField>(
-    w: &FieldElement<F>,
-    n: usize,
+    domain: &[FieldElement<F>],
     order_r_minus_1_root_unity: &FieldElement<F>,
 ) -> Vec<FieldElement<F>> {
     let u = order_r_minus_1_root_unity;
-    let mut result: Vec<FieldElement<F>> = vec![];
-    for index_column in 0..=2 {
-        for index_row in 0..n {
-            result.push(w.pow(index_row) * u.pow(index_column as u64));
-        }
-    }
-    result
+    let u_powers = [&FieldElement::one(), &u, &(u * u)];
+
+    (0..=2)
+        .map(|col| {
+            domain
+                .iter()
+                .map(|elem| elem * u_powers[col])
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>()
+        .concat()
 }
 
 /// A mock of a random number generator, to have deterministic tests.
