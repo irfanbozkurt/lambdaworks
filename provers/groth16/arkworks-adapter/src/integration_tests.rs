@@ -1,6 +1,10 @@
 use crate::arkworks_cs_to_lambda_cs;
 use ark_bls12_381::Fr;
-use ark_relations::{lc, r1cs::ConstraintSystem, r1cs::Variable};
+use ark_relations::{
+    lc,
+    r1cs::Variable,
+    r1cs::{ConstraintSystem, ConstraintSystemRef},
+};
 use lambdaworks_groth16::{setup, verify, Prover, QuadraticArithmeticProgram};
 use rand::Rng;
 
@@ -14,7 +18,7 @@ fn pinocchio_paper_example() {
         c * d = e
         (a + b) + e = result
     */
-    let cs = ConstraintSystem::<Fr>::new_ref();
+    let cs: ConstraintSystemRef<Fr> = ConstraintSystem::new_ref();
 
     let _a = Fr::from(1555);
     let _b = Fr::from(25555);
@@ -60,7 +64,7 @@ fn vitalik_example() {
         (y + x) * 1 = sym_2
         (sym_2 + 5) * 1 = ~out
     */
-    let cs = ConstraintSystem::<Fr>::new_ref();
+    let cs: ConstraintSystemRef<Fr> = ConstraintSystem::new_ref();
 
     //["0x1", "0x3", "0x23", "0x9", "0x1b", "0x1e"]
     let _x = Fr::from(3);
@@ -107,7 +111,7 @@ fn vitalik_example() {
 #[test]
 fn failing_vitalik() {
     // Same circuit as vitalik_example, but with an incorrect witness assignment.
-    let cs = ConstraintSystem::<Fr>::new_ref();
+    let cs: ConstraintSystemRef<Fr> = ConstraintSystem::new_ref();
 
     //["0x1", "0x3", "0x23", "0x9", "0x1b", "0x1e"]
     let _x = Fr::from(3);
@@ -157,7 +161,7 @@ fn exponentiation_example() {
         Generates a "linear exponentiation" circuit with a random base and a random exponent.
         Only the output ~out is public input.
     */
-    let cs = ConstraintSystem::<Fr>::new_ref();
+    let cs: ConstraintSystemRef<Fr> = ConstraintSystem::new_ref();
 
     let mut rng = rand::thread_rng();
     let x = rng.gen::<u64>();

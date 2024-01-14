@@ -1,4 +1,6 @@
 pub mod common;
+pub mod constraint_system;
+pub mod error;
 pub mod qap;
 pub mod r1cs;
 
