@@ -106,8 +106,8 @@ fn try_compile(program_path: &String, out_file_path: &String) -> Result<(), Erro
 }
 
 fn generate_proof(
-    input_path: &String,
-    proof_options: &ProofOptions,
+    input_path: &String,          // "COMPILED" program path
+    proof_options: &ProofOptions, // 100 bit security
 ) -> Option<(
     StarkProof<Stark252PrimeField, Stark252PrimeField>,
     PublicInputs,
@@ -242,11 +242,14 @@ fn main() {
             }
         }
         commands::ProverEntity::RunAndProve(args) => {
-            // verify input file is .cairo
+            // verify input file is not .cairo
             if args.program_path.contains(".cairo") {
                 eprintln!("\nYou are trying to prove a non compiled Cairo program. Please compile it before sending it to the prover.\n");
                 return;
             }
+
+            println!("zürten");
+            println!("${}", args.program_path);
 
             let Some((proof, pub_inputs)) = generate_proof(&args.program_path, &proof_options)
             else {

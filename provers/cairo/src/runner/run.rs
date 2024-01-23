@@ -78,8 +78,8 @@ impl From<TraceError> for Error {
 /// `Error` indicating the type of error.
 #[allow(clippy::type_complexity)]
 pub fn run_program(
-    entrypoint_function: Option<&str>,
-    layout: CairoLayout,
+    entrypoint_function: Option<&str>, // none
+    layout: CairoLayout,               // plain
     program_content: &[u8],
 ) -> Result<(RegisterStates, CairoMemory, PublicInputs), Error> {
     // default value for entrypoint is "main"
@@ -178,6 +178,7 @@ pub fn generate_prover_args_from_trace(
         CairoMemory::from_file(memory_bin_path).expect("Cairo memory binary file not found");
 
     // data length
+    // zürten
     let data_len = 0_usize;
     let mut pub_inputs = PublicInputs::from_regs_and_mem(&register_states, &memory, data_len);
 

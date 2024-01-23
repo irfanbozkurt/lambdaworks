@@ -12,14 +12,13 @@ Please check issues under security label, and wait for them to be resolved if th
 
 ## [Cairo Platinum Prover Docs](<[lambdaclass.github.io/lambdaworks/](https://github.com/lambdaclass/lambdaworks/blob/main/provers/cairo/README.md)>)
 
-
 ### Cairo Platinum Prover - Introduction
 
-Cairo Platinum Prover is an easy to use prover to prove CairoZero and Cairo programs, with support for a web verifier. 
+Cairo Platinum Prover is an easy to use prover to prove CairoZero and Cairo programs, with support for a web verifier.
 
-CLI currently runs with 100 bits of conjecturable security. 
+CLI currently runs with 100 bits of conjecturable security.
 
-Cairo / Cairo1 programs full integration is on the way. It can already be used generating a trace and a memory with the Cairo VM Runner, and fed to the prover with the prove command. 
+Cairo / Cairo1 programs full integration is on the way. It can already be used generating a trace and a memory with the Cairo VM Runner, and fed to the prover with the prove command.
 
 ### Usage:
 
@@ -33,7 +32,6 @@ When using Docker, start by creating the container image with:
 
 Examples of Cairo 0 programs can be found [here](https://github.com/lambdaclass/lambdaworks/tree/main/provers/cairo/cairo-prover-lib/cairo_programs/cairo0)
 
-
 **To compile and generate a proof you can use:**
 
 ```bash
@@ -45,7 +43,6 @@ For example:
 ```bash
 cargo run --release --features=cli,instruments,parallel compile-and-prove cairo_programs/cairo0/fibonacci_5.cairo cairo_programs/cairo0/fibonacci_5.proof
 ```
-
 
 **To verify a proof you can use:**
 
@@ -62,7 +59,7 @@ cargo run --release --features=cli,instruments,parallel verify cairo_programs/ca
 **To compile Cairo:**
 
 ```bash
-cargo run --release --features=cli,instruments,parallel compile <uncompiled_program_path> 
+cargo run --release --features=cli,instruments,parallel compile <uncompiled_program_path>
 ```
 
 For example:
@@ -107,8 +104,6 @@ For example:
 cargo run --release --features=cli,instruments,parallel prove-and-verify cairo_programs/cairo0/fibonacci_5.json
 ```
 
-
-
 **To compile, proof, prove and verify at the same time you can use:**
 
 ```bash
@@ -121,13 +116,14 @@ For example:
 cargo run --release --features=cli,instruments,parallel compile-prove-and-verify cairo_programs/cairo0/fibonacci_5.cairo
 ```
 
-### Build Package for web verifier 
+### Build Package for web verifier
 
 To build the node library to use the verifier on the browser, use `build_wasm`. Using as proof options the ones that match the CLI, or your configuration, you can send the proof to the exposed function and verify it seamlessly.
 
 ### Run CLI as a binary
 
 **To install as a binary run the command on the root directory of the CLI:**
+
 ```bash
 cargo install --features=cli,instruments,parallel --path .
 ```
@@ -135,43 +131,50 @@ cargo install --features=cli,instruments,parallel --path .
 To run the CLI as a binary instead of using cargo replace `cargo run --release --features=cli,instruments,parallel` with `platinum-prover`.
 
 for example, the command to generate a proof becomes:
+
 ```bash
 platinum-prover prove cairo_programs/cairo0/fibonacci_5.json cairo_programs/cairo0/fibonacci_5.proof
 ```
 
 **You can uninstall the binary with:**
+
 ```bash
 cargo uninstall
 ```
 
 ## Running tests
+
 To run tests, simply use
+
 ```
 make test
 ```
+
 If you have the `cairo-lang` toolchain installed, this will compile the Cairo programs needed
 for tests.
 If you have built the cairo-compile docker image, that will be used for compiling instead.
 
 Be sure to build the docker image if you don't want to install the `cairo-lang` toolchain:
+
 ```
 make docker_build_cairo_compiler
 ```
 
 ## To be added
+
 - Stone compatibility
 - Add program as a public input
--  Add Cairo compilation inside Rust, to prove and verify Cairo1/Cairo2 from the .cairo file, instead of the .casm file
+- Add Cairo compilation inside Rust, to prove and verify Cairo1/Cairo2 from the .cairo file, instead of the .casm file
 - Add more Layouts / Builtins
 - Improve parallelization
 - Benchmarks and optimizations for Graviton
--  Cairo Verifier
-   - Batch verifier / For trees and N proofs
--  Pick hash configuration with ProofOptions
+- Cairo Verifier
+  - Batch verifier / For trees and N proofs
+- Pick hash configuration with ProofOptions
 
 ## 📚 References
 
-The following links, repos and projects have been important in the development of this library and we want to thank and acknowledge them. 
+The following links, repos and projects have been important in the development of this library and we want to thank and acknowledge them.
 
 - [Starkware](https://starkware.co/)
 - [Winterfell](https://github.com/facebook/winterfell)

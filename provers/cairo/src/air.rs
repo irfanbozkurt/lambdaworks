@@ -243,13 +243,12 @@ impl PublicInputs {
     pub fn from_regs_and_mem(
         register_states: &RegisterStates,
         memory: &CairoMemory,
-        codelen: usize,
+        codelen: usize, // We pass ZERO here
     ) -> Self {
+        let last_step = &register_states.rows[register_states.steps() - 1];
         let public_memory = (1..=codelen as u64)
             .map(|i| (Felt252::from(i), *memory.get(&i).unwrap()))
             .collect::<HashMap<Felt252, Felt252>>();
-
-        let last_step = &register_states.rows[register_states.steps() - 1];
 
         PublicInputs {
             pc_init: Felt252::from(register_states.rows[0].pc),
